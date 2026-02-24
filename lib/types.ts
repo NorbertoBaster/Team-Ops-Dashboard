@@ -49,8 +49,11 @@ export interface TeamMember {
 }
 
 export interface Team {
-  id: string;
+id: string;
   name: string;
-  memberCount: number;
+  description?: string;       // optional description
+  memberIds?: string[];       // array of member IDs
   createdAt: string;
+   memberCount: number;
 }
+
