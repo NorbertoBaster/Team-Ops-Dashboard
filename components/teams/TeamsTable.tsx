@@ -1,13 +1,18 @@
-// components/teams/TeamsTable.tsx
 'use client';
 
 import { Team } from '@/lib/types';
 
 interface TeamsTableProps {
   teams: Team[];
+  onEdit: (team: Team) => void;
+  onDelete: (teamId: string) => void;
 }
 
-export default function TeamsTable({ teams }: TeamsTableProps) {
+export default function TeamsTable({
+  teams,
+  onEdit,
+  onDelete,
+}: TeamsTableProps) {
   if (!teams || teams.length === 0) {
     return (
       <div className="text-center text-gray-500 text-sm">
@@ -22,6 +27,7 @@ export default function TeamsTable({ teams }: TeamsTableProps) {
         <thead className="bg-gray-50 text-sm">
           <tr>
             <th className="px-4 py-3 text-left font-medium">Team Name</th>
+            <th className="px-4 py-3 text-right font-medium">Actions</th>
           </tr>
         </thead>
 
@@ -29,6 +35,24 @@ export default function TeamsTable({ teams }: TeamsTableProps) {
           {teams.map(team => (
             <tr key={team.id}>
               <td className="px-4 py-3">{team.name}</td>
+
+              <td className="px-4 py-3 text-right">
+                <div className="inline-flex gap-2">
+                  <button
+                    onClick={() => onEdit(team)}
+                    className="rounded-md px-2 py-1 text-xs text-blue-600 hover:bg-blue-50"
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={() => onDelete(team.id)}
+                    className="rounded-md px-2 py-1 text-xs text-red-600 hover:bg-red-50"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>

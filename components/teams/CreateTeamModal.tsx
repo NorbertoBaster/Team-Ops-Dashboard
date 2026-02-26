@@ -7,27 +7,34 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   onCreate: (team: Team) => void;
+  initialTeam?: Team;
 }
 
 export default function CreateTeamModal({
   isOpen,
   onClose,
   onCreate,
+  initialTeam,
 }: Props) {
-  const [name, setName] = useState('');
+  // Initialize once per open
+  const [name, setName] = useState(() => initialTeam?.name ?? '');
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    const newTeam: Team = {
-      id: crypto.randomUUID(),
-      name,
-      memberCount: 0,
-      createdAt: new Date().toISOString(),
+    const team: Team = {
+      id: initialTeam?.id ?? crypto.randomUUID(),
+      name: name.trim(),
+      memberCount: initialTeam?.memberCount ?? 0,
+      createdAt: initialTeam?.createdAt ?? new Date().toISOString(),
     };
 
-    onCreate(newTeam);
-    setName('');
+    onCreate(team);
+    handleClose();
+  }
+
+  function handleClose() {
+    setName(initialTeam?.name ?? '');
     onClose();
   }
 
@@ -36,7 +43,9 @@ export default function CreateTeamModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
-        <h2 className="mb-4 text-lg font-semibold">Create Team</h2>
+        <h2 className="mb-4 text-lg font-semibold">
+          {initialTeam ? 'Edit Team' : 'Create Team'}
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -45,23 +54,26 @@ export default function CreateTeamModal({
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="mt-1 w-full rounded-md border px-3 py-2 text-sm"
+              autoFocus
+              className="mt-1 w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-end gap-2 pt-2">
             <button
               type="button"
-              onClick={onClose}
-              className="rounded-md border px-4 py-2 text-sm"
+              onClick={handleClose}
+              className="rounded-md border px-4 py-2 text-sm hover:bg-gray-50"
             >
               Cancel
             </button>
+
             <button
               type="submit"
-              className="rounded-md bg-blue-600 px-4 py-2 text-sm text-white"
+              disabled={!name.trim()}
+              className="rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 disabled:opacity-50"
             >
-              Create
+              {initialTeam ? 'Save changes' : 'Create'}
             </button>
           </div>
         </form>
