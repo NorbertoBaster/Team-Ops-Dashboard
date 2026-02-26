@@ -48,51 +48,6 @@ This project demonstrates real-world state management, component composition, an
 
 ---
 
-## 🗂️ Project Structure (Simplified)
-
-```
-app/
-  projects/
-    page.tsx
-    [id]/
-      page.tsx
-      ProjectTasks.tsx
-  tasks/
-    page.tsx
-    TasksWrapper.tsx
-
-components/
-  projects/
-    ProjectCard.tsx
-    ProjectsTable.tsx
-    CreateProjectModal.tsx
-  tasks/
-    TasksTable.tsx
-    CreateTaskModal.tsx
-
-lib/
-  types.ts
-```
-
----
-
-## 🧩 Architecture Decisions
-
-### Single Source of Truth
-
-* Each page owns its own state (no global store)
-* `TasksWrapper` manages tasks on the global tasks page
-* `ProjectTasks` manages tasks within a single project
-
-### Dumb Components
-
-* Tables and cards are intentionally stateless
-* All mutations flow downward via props
-
-This keeps the system predictable, debuggable, and easy to extend.
-
----
-
 ## 🛠️ Getting Started
 
 ```bash
