@@ -2,16 +2,39 @@
 
 @layer base {
   :root {
-    --background: 248 250 252; /* slate-50 */
-    --foreground: 15 23 42;    /* slate-900 */
+    /* Neutral palette */
+    --background: 248 250 252;       /* slate-50 */
+    --foreground: 15 23 42;          /* slate-900 */
 
-    --muted: 241 245 249;      /* slate-100 */
-    --muted-foreground: 71 85 105; /* slate-600 */
+    --muted: 241 245 249;            /* slate-100 */
+    --muted-foreground: 71 85 105;   /* slate-600 */
 
-    --border: 226 232 240;     /* slate-200 */
+    --border: 226 232 240;           /* slate-200 */
+
+    /* Surface / cards / modals */
+    --surface: 255 255 255;           /* white */
+
+    /* Focus / ring color */
+    --ring: 59 130 246;               /* blue-500 */
   }
 
+  /* Base body styling */
   body {
-    @apply bg-[rgb(var(--background))] text-[rgb(var(--foreground))];
+  background-color: rgb(var(--background));
+  color: rgb(var(--foreground));
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+  /* Optional: selection color for better product feel */
+  ::selection {
+    background: rgb(219 234 254); /* blue-100 */
+    color: rgb(var(--foreground));
+  }
+
+  /* Tailwind focus ring default can reference --ring */
+  :focus-visible {
+    outline: 2px solid rgb(var(--ring));
+    outline-offset: 2px;
   }
 }
